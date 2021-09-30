@@ -6,7 +6,8 @@ FROM rust:alpine3.14
 RUN apk update 
 RUN apk add --no-cache zsh \
     git \
-    ripgrep
+    ripgrep \
+    curl
 
 RUN sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" --unattended
 #Plugins for Oh My Zsh: npm, ripgrep, rust, rustup, ssh-agent, python, git, docker
@@ -21,7 +22,7 @@ RUN sed 's=/bin/ash=/bin/zsh=g' /etc/passwd
 #RUN sed 's/plugins=(.*)/plugins=(git npm ripgrep rust rustup ssh-agent python docker)/g'
 #RUN source ~/.zshrc
 
-# Potential other tools: AWS-Vault, AWS-CLI, GCP-CLI, Terraform-CLI,TFENV ,Command Line Fuzzy Finder (Or similar) - have not decided on one yet. 
+# Potential other tools: AWS-Vault, AWS-CLI, GCP-CLI, Terraform-CLI,TFENV, Command Line Fuzzy Finder (Or similar) - have not decided on one yet. 
 
 
 ########### USER LINES MAY BE REDUNDANT DUE TO docker-compose.yml
@@ -36,13 +37,13 @@ RUN sed 's=/bin/ash=/bin/zsh=g' /etc/passwd
 # [Optional] Set the default user. Omit if you want to keep the default as root.
 USER $USERNAME
 
-####################### NEED TO FIGURE OUT WHAT IS GOING ON HERE - TRY RUNNING MANUALLY IN CONTAINER
-# Install Rust binary, --path ensures build and install unless another binary conflicts
-#RUN cargo install --path .
-
 #Install WASM tools for Rust
-#RUN cargo install wasm-pack
-#RUN cargo install cargo-generate
+RUN curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | zsh
+RUN apk add alpine-sdk
+RUN apk add libressl-dev
+RUN apk add pkgconfig
+RUN cargo install cargo-generate
+RUN apk add --update nodejs npm
 
 # Default command - launch zsh
 #CMD ["/bin/zsh"]
