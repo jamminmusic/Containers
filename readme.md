@@ -1,1 +1,1 @@
-Repo for Rust dev container that will be used in projects. 
+Repo for container that will be used in Jammin projects. 
