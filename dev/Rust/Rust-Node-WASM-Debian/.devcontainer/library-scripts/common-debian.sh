@@ -107,13 +107,17 @@ if [ "${PACKAGES_ALREADY_INSTALLED}" != "true" ]; then
         zlib1g \
         locales \
         sudo \
-        ripgrep \
         ncdu \
         man-db \
         strace \
         manpages \
         manpages-dev \
-        init-system-helpers"
+        init-system-helpers \
+        ripgrep \
+        fzf \
+        fd-find \
+        fasd \
+        httpie "
         
     # Needed for adding manpages-posix and manpages-posix-dev which are non-free packages in Debian
     if [ "${ADD_NON_FREE_PACKAGES}" = "true" ]; then
